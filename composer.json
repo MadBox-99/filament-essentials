@@ -1,0 +1,51 @@
+{
+    "name": "szabozoltan/filament-essentials",
+    "description": "Essential default configurations and macros for Filament PHP",
+    "type": "library",
+    "keywords": [
+        "filament",
+        "laravel",
+        "php",
+        "form",
+        "essentials"
+    ],
+    "require": {
+        "php": "^8.1",
+        "filament/filament": "^3.0",
+        "spatie/laravel-package-tools": "^1.15"
+    },
+    "require-dev": {
+        "laravel/framework": "^10.0|^11.0",
+        "phpunit/phpunit": "^10.0",
+        "orchestra/testbench": "^8.0|^9.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Szabo Zoltan",
+            "email": "your@email.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SzaboZoltan\\FilamentEssentials\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SzaboZoltan\\FilamentEssentials\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SzaboZoltan\\FilamentEssentials\\FilamentEssentialsServiceProvider"
+            ],
+            "aliases": {
+                "FilamentEssentials": "SzaboZoltan\\FilamentEssentials\\Facades\\FilamentEssentials"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
