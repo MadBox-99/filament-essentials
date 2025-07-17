@@ -5,7 +5,7 @@ Essential alapértelmezett konfigurációk a Filament PHP-hez. Ez a csomag **aut
 ## Telepítés
 
 ```bash
-composer require szabozoltan/filament-essentials
+composer require madbox-99/filament-essentials
 ```
 
 A csomag automatikusan regisztrálódik Laravel-ben a package discovery révén, és **azonnal** elkezd működni minden új Filament komponensnél.
@@ -93,7 +93,7 @@ Ha szeretnéd ezt a funkciót:
 ### Facade használata
 
 ```php
-use SzaboZoltan\FilamentEssentials\Facades\FilamentEssentials;
+use FilamentEssentials\Facades\FilamentEssentials;
 
 // Konfigurációs értékek lekérése
 $isTranslatable = FilamentEssentials::isTranslatableByDefault(); // false
@@ -199,6 +199,18 @@ class ProductResource extends Resource
 ```
 
 **Semmi extra kód nem kell!** Minden automatikusan működik. 🎉
+
+## Tesztelés
+
+A csomag Pest-tel van tesztelve:
+
+```bash
+# Tesztek futtatása
+composer test
+
+# Vagy direkt módon
+./vendor/bin/pest
+```
 
 ## Követelmények
 

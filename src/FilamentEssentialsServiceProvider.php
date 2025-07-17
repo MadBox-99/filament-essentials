@@ -1,6 +1,6 @@
 <?php
 
-namespace SzaboZoltan\FilamentEssentials;
+namespace FilamentEssentials;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -14,27 +14,23 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\FileUpload;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class FilamentEssentialsServiceProvider extends PackageServiceProvider
+class FilamentEssentialsServiceProvider extends ServiceProvider
 {
-    public function configurePackage(Package $package): void
-    {
-        $package
-            ->name('filament-essentials')
-            ->hasConfigFile();
-    }
-
-    public function packageRegistered(): void
+    public function register(): void
     {
         $this->app->singleton(FilamentEssentials::class, function () {
             return new FilamentEssentials();
         });
     }
 
-    public function packageBooted(): void
+    public function boot(): void
     {
+        $this->publishes([
+            __DIR__.'/../config/filament-essentials.php' => config_path('filament-essentials.php'),
+        ], 'filament-essentials-config');
+
         $this->configureFilamentComponents();
     }
 

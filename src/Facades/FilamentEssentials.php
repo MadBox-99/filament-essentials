@@ -1,16 +1,16 @@
 <?php
 
-namespace SzaboZoltan\FilamentEssentials\Facades;
+namespace FilamentEssentials\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \SzaboZoltan\FilamentEssentials\FilamentEssentials
+ * @see \FilamentEssentials\FilamentEssentials
  */
 class FilamentEssentials extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \SzaboZoltan\FilamentEssentials\FilamentEssentials::class;
+        return \FilamentEssentials\FilamentEssentials::class;
     }
 }

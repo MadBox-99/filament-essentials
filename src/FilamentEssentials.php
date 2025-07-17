@@ -1,6 +1,6 @@
 <?php
 
-namespace SzaboZoltan\FilamentEssentials;
+namespace FilamentEssentials;
 
 class FilamentEssentials
 {

@@ -17,7 +17,8 @@
     "require-dev": {
         "laravel/framework": "^10.0|^11.0",
         "phpunit/phpunit": "^10.0",
-        "orchestra/testbench": "^8.0|^9.0"
+        "orchestra/testbench": "^8.0|^9.0",
+        "pestphp/pest": "^2.36"
     },
     "license": "MIT",
     "authors": [
@@ -28,24 +29,33 @@
     ],
     "autoload": {
         "psr-4": {
-            "SzaboZoltan\\FilamentEssentials\\": "src/"
+            "FilamentEssentials\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "SzaboZoltan\\FilamentEssentials\\Tests\\": "tests/"
+            "FilamentEssentials\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "SzaboZoltan\\FilamentEssentials\\FilamentEssentialsServiceProvider"
+                "FilamentEssentials\\FilamentEssentialsServiceProvider"
             ],
             "aliases": {
-                "FilamentEssentials": "SzaboZoltan\\FilamentEssentials\\Facades\\FilamentEssentials"
+                "FilamentEssentials": "FilamentEssentials\\Facades\\FilamentEssentials"
             }
         }
     },
+    "scripts": {
+        "test": "pest",
+        "test-coverage": "pest --coverage"
+    },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }
