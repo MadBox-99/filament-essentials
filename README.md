@@ -1,134 +1,133 @@
 # Filament Essentials
 
-Essential alapértelmezett konfigurációk a Filament PHP-hez. Ez a csomag **automatikusan** beállítja az alapértelmezett opciókat minden Filament form komponenshez, így nem kell külön meghívnod semmilyen makrót vagy függvényt.
+Essential default configurations for Filament PHP. This package **automatically** sets up default options for every Filament form component, so you don't need to call any macros or functions separately.
 
-## Telepítés
+## Installation
 
 ```bash
 composer require madbox-99/filament-essentials
 ```
 
-A csomag automatikusan regisztrálódik Laravel-ben a package discovery révén, és **azonnal** elkezd működni minden új Filament komponensnél.
+The package is automatically registered in Laravel through package discovery and **immediately** starts working with every new Filament component.
 
-### Opcionális translatable funkció
+### Optional translatable functionality
 
-Ha szeretnéd használni a `translatable()` funkciót, telepítsd a következő csomagot is:
+If you want to use the `translatable()` function, install the following package as well:
 
 ```bash
 composer require spatie/laravel-translatable
 ```
 
-Vagy használj bármilyen más translation csomagot, amely biztosítja a `translatable()` metódust a Filament komponensekhez.
+Or use any other translation package that provides the `translatable()` method for Filament components.
 
-## Konfiguráció
+## Configuration
 
-Publikáld a konfigurációs fájlt:
+Publish the configuration file:
 
 ```bash
 php artisan vendor:publish --tag="filament-essentials-config"
 ```
 
-Ez létrehozza a `config/filament-essentials.php` fájlt, ahol testreszabhatod az alapértelmezett beállításokat.
+This creates the `config/filament-essentials.php` file where you can customize the default settings.
 
-## Használat
+## Usage
 
-### Automatikus működés
+### Automatic operation
 
-**Nincs szükség semmilyen extra kódra!** A csomag telepítése után minden Filament form komponens automatikusan megkapja az alapértelmezett beállításokat:
+**No extra code needed!** After installing the package, every Filament form component automatically gets the default settings:
 
 ```php
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 
-```php
-// Korábban így kellett volna:
+// Previously you would have needed:
 TextInput::make('name')
     ->translateLabel()
     ->maxLength(255),
 
-// Most egyszerűen csak így:
+// Now simply:
 TextInput::make('name'),
-// ↑ Automatikusan 255 karakter limit (ÉS translateLabel() ha be van kapcsolva)!
+// ↑ Automatically 255 character limit (AND translateLabel() if enabled)!
 
-// A mezők címkéi automatikusan lefordulnak a Laravel lang fájlok alapján (ha engedélyezve)
+// Field labels are automatically translated based on Laravel lang files (if enabled)
 ```
 ```
 
-### Automatikusan alkalmazott beállítások
+### Automatically applied settings
 
-- **TextInput** - Automatikusan `maxLength(255)`, opcionálisan `translateLabel()`
-- **Textarea** - Automatikusan `maxLength(1000)`, `rows(3)`, opcionálisan `translateLabel()`
-- **RichEditor** - Testreszabott toolbar, opcionálisan `translateLabel()`
-- **Select** - Automatikusan `searchable(true)`, `preload(false)`, opcionálisan `translateLabel()`
-- **DatePicker** - Magyar dátum formátum (Y-m-d → Y. m. d.), opcionálisan `translateLabel()`
-- **TimePicker** - 24 órás formátum (H:i), opcionálisan `translateLabel()`
-- **DateTimePicker** - Magyar dátum-idő formátum, opcionálisan `translateLabel()`
-- **Toggle** - `onColor('success')`, `offColor('gray')`, opcionálisan `translateLabel()`
-- **Checkbox** - Opcionálisan `translateLabel()`
-- **CheckboxList** - `searchable(true)`, `bulkToggleable(true)`, opcionálisan `translateLabel()`
-- **Radio** - Opcionálisan `translateLabel()`
-- **FileUpload** - `maxSize(2048)` KB, PDF és képek, `downloadable(true)`, `previewable(true)`, opcionálisan `translateLabel()`
+- **TextInput** - Automatically `maxLength(255)`, optionally `translateLabel()`
+- **Textarea** - Automatically `maxLength(1000)`, `rows(3)`, optionally `translateLabel()`
+- **RichEditor** - Custom toolbar, optionally `translateLabel()`
+- **Select** - Automatically `searchable(true)`, `preload(false)`, optionally `translateLabel()`
+- **DatePicker** - Hungarian date format (Y-m-d → Y. m. d.), optionally `translateLabel()`
+- **TimePicker** - 24-hour format (H:i), optionally `translateLabel()`
+- **DateTimePicker** - Hungarian date-time format, optionally `translateLabel()`
+- **Toggle** - `onColor('success')`, `offColor('gray')`, optionally `translateLabel()`
+- **Checkbox** - Optionally `translateLabel()`
+- **CheckboxList** - `searchable(true)`, `bulkToggleable(true)`, optionally `translateLabel()`
+- **Radio** - Optionally `translateLabel()`
+- **FileUpload** - `maxSize(2048)` KB, PDF and images, `downloadable(true)`, `previewable(true)`, optionally `translateLabel()`
 
-### TranslateLabel funkció
+### TranslateLabel function
 
-A `translateLabel()` alapértelmezésben **ki van kapcsolva**, de biztonságos bekapcsolni. 
-Ez automatikusan lefordítja a mezők címkéit a Laravel lokalizációs fájlok alapján.
+The `translateLabel()` is **disabled by default**, but it's safe to enable. 
+This automatically translates field labels based on Laravel localization files.
 
 ```php
-// Például ha van resources/lang/hu/validation.php fájlodban:
+// For example, if you have in resources/lang/en/validation.php:
 'attributes' => [
-    'name' => 'Név',
-    'email' => 'E-mail cím',
+    'name' => 'Name',
+    'email' => 'Email Address',
 ]
 
-// Akkor a TextInput::make('name') automatikusan "Név" címkét fog mutatni
+// Then TextInput::make('name') will automatically show "Name" as the label
 ```
 
-Ha szeretnéd ezt a funkciót:
+If you want to use this feature:
 
 ```php
 // config/filament-essentials.php
 'default_translatable' => true,
 ```
 
-### Facade használata
+### Facade usage
 
 ```php
 use FilamentEssentials\Facades\FilamentEssentials;
 
-// Konfigurációs értékek lekérése
+// Get configuration values
 $isTranslatable = FilamentEssentials::isTranslatableByDefault(); // false
-$config = FilamentEssentials::getDefaultConfig(); // összes konfiguráció
+$config = FilamentEssentials::getDefaultConfig(); // all configuration
 ```
 
-### Egyedi beállítások felülírása
+### Overriding individual settings
 
-Ha egy adott komponenshez más beállítást szeretnél, egyszerűen add hozzá:
+If you want different settings for a specific component, simply add them:
 
 ```php
 TextInput::make('special_field')
-    ->maxLength(500)  // Felülírja az alapértelmezett 255-öt
-    ->required(),     // Hozzáadod a required()-et ha szükséges
+    ->maxLength(500)  // Overrides the default 255
+    ->required(),     // Add required() if needed
 ```
 
-## Konfiguráció
+## Configuration
 
-Az alapértelmezett beállításokat a `config/filament-essentials.php` fájlban módosíthatod:
+You can modify the default settings in the `config/filament-essentials.php` file:
 
 ```php
 return [
-    'default_translatable' => false,       // Minden mező legyen translateLabel()
-    'default_max_length' => 255,          // TextInput max hossz
-    'default_textarea_max_length' => 1000, // Textarea max hossz
-    'default_textarea_rows' => 3,         // Textarea sorok száma
-    'default_textarea_cols' => 50,        // Textarea oszlopok száma
+    'default_translatable' => false,       // Make every field translateLabel()
+    'default_max_length' => 255,          // TextInput max length
+    'default_textarea_max_length' => 1000, // Textarea max length
+    'default_textarea_rows' => 3,         // Textarea row count
+    'default_textarea_cols' => 50,        // Textarea column count
     
-    // Select beállítások
+    // Select settings
     'default_select_searchable' => true,
     'default_select_preload' => false,
     
-    // Dátum formátumok
+    // Date formats
     'default_date_format' => 'Y-m-d',
     'default_date_display_format' => 'Y. m. d.',
     'default_time_format' => 'H:i',
@@ -136,21 +135,21 @@ return [
     'default_datetime_format' => 'Y-m-d H:i:s',
     'default_datetime_display_format' => 'Y. m. d. H:i',
     
-    // Toggle színek
+    // Toggle colors
     'default_toggle_on_color' => 'success',
     'default_toggle_off_color' => 'gray',
     
-    // CheckboxList beállítások
+    // CheckboxList settings
     'default_checkbox_list_searchable' => true,
     'default_checkbox_list_bulk_toggleable' => true,
     
-    // Fájl feltöltés
+    // File upload
     'default_file_max_size' => 2048, // KB
     'default_file_types' => ['application/pdf', 'image/*'],
     'default_file_downloadable' => true,
     'default_file_previewable' => true,
     
-    // RichEditor toolbar beállítások
+    // RichEditor toolbar settings
     'rich_editor_toolbar' => [
         'attachFiles', 'blockquote', 'bold', 'bulletList', 'codeBlock',
         'h2', 'h3', 'italic', 'link', 'orderedList', 'redo',
@@ -159,7 +158,7 @@ return [
 ];
 ```
 
-## Példa használat
+## Example usage
 
 ```php
 <?php
@@ -176,31 +175,31 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                // Minden komponens automatikusan megkapja az alapértelmezett beállításokat!
+                // Every component automatically gets the default settings!
                 Forms\Components\TextInput::make('name'),
-                // ↑ Automatikusan maxLength(255) (opcionálisan translateLabel)
+                // ↑ Automatically maxLength(255) (optionally translateLabel)
                 
                 Forms\Components\Textarea::make('description'),
-                // ↑ Automatikusan maxLength(1000), rows(3) (opcionálisan translateLabel)
+                // ↑ Automatically maxLength(1000), rows(3) (optionally translateLabel)
                 
                 Forms\Components\RichEditor::make('content'),
-                // ↑ Testreszabott toolbar (opcionálisan translateLabel)
+                // ↑ Custom toolbar (optionally translateLabel)
                 
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name'),
-                // ↑ Automatikusan searchable(true), preload(false) (opcionálisan translateLabel)
+                // ↑ Automatically searchable(true), preload(false) (optionally translateLabel)
                 
                 Forms\Components\DatePicker::make('published_at'),
-                // ↑ Automatikusan Y-m-d formátum (opcionálisan translateLabel)
+                // ↑ Automatically Y-m-d format (optionally translateLabel)
                 
                 Forms\Components\Toggle::make('is_active'),
-                // ↑ Automatikusan onColor('success'), offColor('gray') (opcionálisan translateLabel)
+                // ↑ Automatically onColor('success'), offColor('gray') (optionally translateLabel)
                 
                 Forms\Components\FileUpload::make('images')
                     ->multiple(),
-                // ↑ Automatikusan maxSize(2048), PDF+képek, downloadable, previewable (opcionálisan translateLabel)
+                // ↑ Automatically maxSize(2048), PDF+images, downloadable, previewable (optionally translateLabel)
                 
-                // Ha szükséged van kötelező mezőre, egyszerűen add hozzá:
+                // If you need a required field, simply add it:
                 Forms\Components\TextInput::make('required_field')
                     ->required(),
             ]);
@@ -208,7 +207,7 @@ class ProductResource extends Resource
 }
 ```
 
-**Semmi extra kód nem kell!** Minden automatikusan működik. 🎉
+**No extra code needed!** Everything works automatically. 🎉
 
 ## Tesztelés
 
