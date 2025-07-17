@@ -52,7 +52,6 @@ TextInput::make('name'),
 
 // Field labels are automatically translated based on Laravel lang files (if enabled)
 ```
-```
 
 ### Automatically applied settings
 
@@ -209,56 +208,56 @@ class ProductResource extends Resource
 
 **No extra code needed!** Everything works automatically. 🎉
 
-## Tesztelés
+## Testing
 
-A csomag Pest-tel van tesztelve és **teljes körűen lefedi az automatikus konfigurációt**:
+The package is tested with Pest and **comprehensively covers automatic configuration**:
 
 ```bash
-# Tesztek futtatása
+# Run tests
 composer test
 
-# Vagy direkt módon
+# Or directly
 ./vendor/bin/pest
 
-# Specifikus teszt futtatása
+# Run specific test
 ./vendor/bin/pest tests/ComponentConfigurationTest.php
 
-# Code coverage (Xdebug vagy PCOV szükséges)
+# Code coverage (requires Xdebug or PCOV)
 composer test-coverage
 ```
 
-### Tesztelt funkciók
+### Tested functionality
 
-A tesztek ellenőrzik, hogy minden Filament komponens automatikusan megkapja-e a megfelelő konfigurációt:
+The tests verify that every Filament component automatically receives the correct configuration:
 
-- ✅ **Select** komponens - `searchable=true`, `preload=false`
-- ✅ **TextInput** komponens - `maxLength=255`
-- ✅ **Textarea** komponens - `maxLength=1000`, `rows=3`
-- ✅ **DatePicker** komponens - formátum és megjelenítési formátum beállítása
-- ✅ **Toggle** komponens - `onColor=success`, `offColor=gray`
-- ✅ **FileUpload** komponens - méret limit, fájl típusok, letöltés/előnézet
-- ✅ **CheckboxList** komponens - `searchable=true`, `bulkToggleable=true`
-- ✅ **Facade** működése - konfiguráció elérhetősége
-- ✅ **Konzisztencia** - minden példány ugyanazt a konfigurációt kapja
+- ✅ **Select** component - `searchable=true`, `preload=false`
+- ✅ **TextInput** component - `maxLength=255`
+- ✅ **Textarea** component - `maxLength=1000`, `rows=3`
+- ✅ **DatePicker** component - format and display format settings
+- ✅ **Toggle** component - `onColor=success`, `offColor=gray`
+- ✅ **FileUpload** component - size limit, file types, download/preview
+- ✅ **CheckboxList** component - `searchable=true`, `bulkToggleable=true`
+- ✅ **Facade** functionality - configuration accessibility
+- ✅ **Consistency** - every instance gets the same configuration
 
-A tesztek **valóban ellenőrzik az automatikus konfigurációt** - nem csak azt, hogy a komponensek létrejönnek, hanem azt is, hogy megfelelő beállításokat kapnak.
+The tests **actually verify automatic configuration** - not just that components are created, but that they receive the correct settings.
 
-**Megjegyzés:** A code coverage-hez szükséged van Xdebug vagy PCOV PHP extension-re.
+**Note:** Code coverage requires Xdebug or PCOV PHP extension.
 
-## Követelmények
+## Requirements
 
-- PHP 8.1 vagy újabb
-- Laravel 10.x vagy 11.x
+- PHP 8.1 or newer
+- Laravel 10.x or 11.x
 - Filament 3.x
 
-## Licenc
+## License
 
-MIT License. Lásd a [LICENSE](LICENSE) fájlt a részletekért.
+MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Közreműködés
+## Contributing
 
-A közreműködés szívesen fogadott! Kérjük, nyiss egy issue-t vagy külj egy pull request-et.
+Contributions are welcome! Please open an issue or submit a pull request.
 
-## Szerző
+## Author
 
-Szabo Zoltan - [your@email.com](mailto:your@email.com)
+Zoltán Tamás Szabó- [zoli.szabok@gmail.com](mailto:zoli.szabok@gmail.com)
