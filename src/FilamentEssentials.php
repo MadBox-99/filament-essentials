@@ -11,9 +11,8 @@ class FilamentEssentials
 
     public static function isTranslatableByDefault(): bool
     {
-        // Csak akkor engedélyezzük a translatable-t alapértelmezésként,
-        // ha a konfiguráció explicit true és elérhető a funkció
-        return config('filament-essentials.default_translatable', false);
+        // translateLabel() biztonságos minden komponensen
+        return config('filament-essentials.default_translatable', true);
     }
 
     public static function isRequiredByDefault(): bool

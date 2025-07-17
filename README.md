@@ -48,36 +48,46 @@ TextInput::make('name')
 
 // Most egyszerűen csak így:
 TextInput::make('name'),
-// ↑ Automatikusan 255 karakter limit!
+// ↑ Automatikusan 255 karakter limit ÉS translateLabel()!
 
-// Ha szeretnéd a translatable funkciót, állítsd be a konfigurációban:
-// 'default_translatable' => true
+// A mezők címkéi automatikusan lefordulnak a Laravel lang fájlok alapján
 ```
 
 ### Automatikusan alkalmazott beállítások
 
-- **TextInput** - Automatikusan max 255 karakter
-- **Textarea** - Automatikusan max 1000 karakter, 3 sor
-- **RichEditor** - Automatikusan előre konfigurált toolbar
-- **Select** - Automatikusan searchable
+- **TextInput** - Automatikusan translateLabel(), max 255 karakter
+- **Textarea** - Automatikusan translateLabel(), max 1000 karakter, 3 sor
+- **RichEditor** - Automatikusan translateLabel(), előre konfigurált toolbar
+- **Select** - Automatikusan translateLabel(), searchable
 - **DatePicker** - Magyar dátum formátum (Y. m. d.)
 - **TimePicker** - 24 órás formátum (H:i)
 - **DateTimePicker** - Magyar dátum-idő formátum
 - **Toggle** - Zöld/szürke színek
-- **CheckboxList** - Searchable, bulk toggleable
+- **CheckboxList** - Searchable, bulk toggleable, translateLabel()
+- **Radio** - translateLabel()
 - **FileUpload** - 2MB limit, PDF és képek, letölthető és előnézettel
 
-### Translatable támogatás
+### TranslateLabel funkció
 
-A `translatable()` funkció alapértelmezésként **ki van kapcsolva** a biztonság érdekében. 
-Ha szeretnéd használni, állítsd be a konfigurációban:
+A `translateLabel()` alapértelmezésben **be van kapcsolva** és biztonságos. 
+Ez automatikusan lefordítja a mezők címkéit a Laravel lokalizációs fájlok alapján.
+
+```php
+// Például ha van resources/lang/hu/validation.php fájlodban:
+'attributes' => [
+    'name' => 'Név',
+    'email' => 'E-mail cím',
+]
+
+// Akkor a TextInput::make('name') automatikusan "Név" címkét fog mutatni
+```
+
+Ha nem szeretnéd ezt a funkciót:
 
 ```php
 // config/filament-essentials.php
-'default_translatable' => true,
+'default_translatable' => false,
 ```
-
-**Figyelem:** Csak akkor kapcsold be, ha telepítve van egy translation csomag (pl. `spatie/laravel-translatable`)!
 
 ### Facade használata
 

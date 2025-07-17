@@ -46,14 +46,14 @@ $traditionalForm = [
 // MOST: Filament Essentials automatikusan beállít mindent!
 $essentialsForm = [
     TextInput::make('name'),
-    // ↑ Automatikusan max 255 karakter
+    // ↑ Automatikusan translateLabel(), max 255 karakter
     
     Textarea::make('description'),
-    // ↑ Automatikusan max 1000 karakter, 3 sor
+    // ↑ Automatikusan translateLabel(), max 1000 karakter, 3 sor
     
     Select::make('category_id')
         ->relationship('category', 'name'),
-    // ↑ Automatikusan searchable
+    // ↑ Automatikusan translateLabel(), searchable
     
     DatePicker::make('published_at'),
     // ↑ Automatikusan Y. m. d. formátum
@@ -75,6 +75,6 @@ $customForm = [
         ->rows(10),       // Felülírja az alapértelmezett 3-at
 ];
 
-// A translatable funkció alapértelmezésként ki van kapcsolva
-// a biztonság érdekében. Ha szeretnéd használni:
-// config/filament-essentials.php: 'default_translatable' => true
+// A translateLabel() automatikusan be van kapcsolva és biztonságos!
+// Ez lefordítja a mezők címkéit a Laravel lang fájlok alapján.
+// Például: TextInput::make('name') → automatikusan "Név" címke

@@ -8,9 +8,11 @@ Az formátum a [Keep a Changelog](https://keepachangelog.com/hu/1.0.0/) alapján
 ## [Unreleased]
 
 ### Changed
-- **Breaking change**: `default_translatable` alapértelmezett értéke `false`-ra változott a biztonság érdekében
-- Intelligensebb translatable kezelés: csak akkor alkalmazza, ha explicit engedélyezve van ÉS elérhető a metódus
-- Frissített dokumentáció a biztonságos translatable használatról
+- **Breaking change**: `translatable()` helyett `translateLabel()` használata
+- `default_translatable` alapértelmezett értéke vissza `true`-ra - most már biztonságos!
+- `translateLabel()` automatikusan lefordítja a mezők címkéit Laravel lang fájlok alapján
+- Nincs szükség külső translation csomagokra
+- Frissített dokumentáció a `translateLabel()` funkcióról
 
 ## [1.0.0] - 2025-07-17
 

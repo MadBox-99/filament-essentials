@@ -6,14 +6,14 @@ return [
     | Default Translatable Setting
     |--------------------------------------------------------------------------
     |
-    | This value determines whether form components should be translatable
-    | by default. Set to true only if you have a translation package installed
-    | (like spatie/laravel-translatable) and want translatable fields by default.
+    | This value determines whether form components should have translatable
+    | labels by default using translateLabel(). This automatically translates
+    | field labels based on your Laravel localization files.
     | 
-    | WARNING: Setting this to true without proper translation setup may cause errors!
+    | Safe to enable - doesn't require additional packages!
     |
     */
-    'default_translatable' => false,
+    'default_translatable' => true,
 
     /*
     |--------------------------------------------------------------------------
