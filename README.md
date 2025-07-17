@@ -41,6 +41,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 
+```php
 // Korábban így kellett volna:
 TextInput::make('name')
     ->translateLabel()
@@ -48,25 +49,26 @@ TextInput::make('name')
 
 // Most egyszerűen csak így:
 TextInput::make('name'),
-// ↑ Automatikusan 255 karakter limit ÉS translateLabel()!
+// ↑ Automatikusan 255 karakter limit (ÉS translateLabel() ha be van kapcsolva)!
 
-// A mezők címkéi automatikusan lefordulnak a Laravel lang fájlok alapján
+// A mezők címkéi automatikusan lefordulnak a Laravel lang fájlok alapján (ha engedélyezve)
+```
 ```
 
 ### Automatikusan alkalmazott beállítások
 
-- **TextInput** - Automatikusan translateLabel(), max 255 karakter
-- **Textarea** - Automatikusan translateLabel(), 3 sor, 50 oszlop
-- **RichEditor** - Automatikusan translateLabel()
-- **Select** - Automatikusan translateLabel(), searchable
-- **DatePicker** - Magyar dátum formátum (Y. m. d.), translateLabel()
-- **TimePicker** - 24 órás formátum (H:i), translateLabel()
-- **DateTimePicker** - Magyar dátum-idő formátum, translateLabel()
-- **Toggle** - Zöld/szürke színek, translateLabel()
-- **Checkbox** - translateLabel()
-- **CheckboxList** - Searchable, bulk toggleable, translateLabel()
-- **Radio** - translateLabel()
-- **FileUpload** - 2MB limit, PDF és képek, letölthető és előnézettel, translateLabel()
+- **TextInput** - Automatikusan `maxLength(255)`, opcionálisan `translateLabel()`
+- **Textarea** - Automatikusan `maxLength(1000)`, `rows(3)`, opcionálisan `translateLabel()`
+- **RichEditor** - Testreszabott toolbar, opcionálisan `translateLabel()`
+- **Select** - Automatikusan `searchable(true)`, `preload(false)`, opcionálisan `translateLabel()`
+- **DatePicker** - Magyar dátum formátum (Y-m-d → Y. m. d.), opcionálisan `translateLabel()`
+- **TimePicker** - 24 órás formátum (H:i), opcionálisan `translateLabel()`
+- **DateTimePicker** - Magyar dátum-idő formátum, opcionálisan `translateLabel()`
+- **Toggle** - `onColor('success')`, `offColor('gray')`, opcionálisan `translateLabel()`
+- **Checkbox** - Opcionálisan `translateLabel()`
+- **CheckboxList** - `searchable(true)`, `bulkToggleable(true)`, opcionálisan `translateLabel()`
+- **Radio** - Opcionálisan `translateLabel()`
+- **FileUpload** - `maxSize(2048)` KB, PDF és képek, `downloadable(true)`, `previewable(true)`, opcionálisan `translateLabel()`
 
 ### TranslateLabel funkció
 
@@ -117,7 +119,8 @@ Az alapértelmezett beállításokat a `config/filament-essentials.php` fájlban
 ```php
 return [
     'default_translatable' => false,       // Minden mező legyen translateLabel()
-    'default_text_maxlength' => 255,      // TextInput max hossz
+    'default_max_length' => 255,          // TextInput max hossz
+    'default_textarea_max_length' => 1000, // Textarea max hossz
     'default_textarea_rows' => 3,         // Textarea sorok száma
     'default_textarea_cols' => 50,        // Textarea oszlopok száma
     
@@ -146,6 +149,13 @@ return [
     'default_file_types' => ['application/pdf', 'image/*'],
     'default_file_downloadable' => true,
     'default_file_previewable' => true,
+    
+    // RichEditor toolbar beállítások
+    'rich_editor_toolbar' => [
+        'attachFiles', 'blockquote', 'bold', 'bulletList', 'codeBlock',
+        'h2', 'h3', 'italic', 'link', 'orderedList', 'redo',
+        'strike', 'underline', 'undo',
+    ],
 ];
 ```
 
@@ -168,27 +178,27 @@ class ProductResource extends Resource
             ->schema([
                 // Minden komponens automatikusan megkapja az alapértelmezett beállításokat!
                 Forms\Components\TextInput::make('name'),
-                // ↑ Automatikusan max 255 karakter (opcionálisan translateLabel)
+                // ↑ Automatikusan maxLength(255) (opcionálisan translateLabel)
                 
                 Forms\Components\Textarea::make('description'),
-                // ↑ Automatikusan 3 sor, 50 oszlop (opcionálisan translateLabel)
+                // ↑ Automatikusan maxLength(1000), rows(3) (opcionálisan translateLabel)
                 
                 Forms\Components\RichEditor::make('content'),
-                // ↑ Opcionálisan translateLabel
+                // ↑ Testreszabott toolbar (opcionálisan translateLabel)
                 
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name'),
-                // ↑ Automatikusan searchable (opcionálisan translateLabel)
+                // ↑ Automatikusan searchable(true), preload(false) (opcionálisan translateLabel)
                 
                 Forms\Components\DatePicker::make('published_at'),
-                // ↑ Automatikusan Y. m. d. formátum (opcionálisan translateLabel)
+                // ↑ Automatikusan Y-m-d formátum (opcionálisan translateLabel)
                 
                 Forms\Components\Toggle::make('is_active'),
-                // ↑ Automatikusan zöld/szürke színek (opcionálisan translateLabel)
+                // ↑ Automatikusan onColor('success'), offColor('gray') (opcionálisan translateLabel)
                 
                 Forms\Components\FileUpload::make('images')
                     ->multiple(),
-                // ↑ Automatikusan 2MB limit, képek, letölthető (opcionálisan translateLabel)
+                // ↑ Automatikusan maxSize(2048), PDF+képek, downloadable, previewable (opcionálisan translateLabel)
                 
                 // Ha szükséged van kötelező mezőre, egyszerűen add hozzá:
                 Forms\Components\TextInput::make('required_field')
@@ -202,7 +212,7 @@ class ProductResource extends Resource
 
 ## Tesztelés
 
-A csomag Pest-tel van tesztelve:
+A csomag Pest-tel van tesztelve és **teljes körűen lefedi az automatikus konfigurációt**:
 
 ```bash
 # Tesztek futtatása
@@ -211,12 +221,28 @@ composer test
 # Vagy direkt módon
 ./vendor/bin/pest
 
+# Specifikus teszt futtatása
+./vendor/bin/pest tests/ComponentConfigurationTest.php
+
 # Code coverage (Xdebug vagy PCOV szükséges)
 composer test-coverage
-
-# HTML coverage report generálása
-composer test-coverage-html
 ```
+
+### Tesztelt funkciók
+
+A tesztek ellenőrzik, hogy minden Filament komponens automatikusan megkapja-e a megfelelő konfigurációt:
+
+- ✅ **Select** komponens - `searchable=true`, `preload=false`
+- ✅ **TextInput** komponens - `maxLength=255`
+- ✅ **Textarea** komponens - `maxLength=1000`, `rows=3`
+- ✅ **DatePicker** komponens - formátum és megjelenítési formátum beállítása
+- ✅ **Toggle** komponens - `onColor=success`, `offColor=gray`
+- ✅ **FileUpload** komponens - méret limit, fájl típusok, letöltés/előnézet
+- ✅ **CheckboxList** komponens - `searchable=true`, `bulkToggleable=true`
+- ✅ **Facade** működése - konfiguráció elérhetősége
+- ✅ **Konzisztencia** - minden példány ugyanazt a konfigurációt kapja
+
+A tesztek **valóban ellenőrzik az automatikus konfigurációt** - nem csak azt, hogy a komponensek létrejönnek, hanem azt is, hogy megfelelő beállításokat kapnak.
 
 **Megjegyzés:** A code coverage-hez szükséged van Xdebug vagy PCOV PHP extension-re.
 
