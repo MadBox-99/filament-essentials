@@ -43,7 +43,7 @@ use Filament\Forms\Components\Select;
 
 // Korábban így kellett volna:
 TextInput::make('name')
-    ->translatable()
+    ->translateLabel()
     ->maxLength(255),
 
 // Most egyszerűen csak így:
@@ -56,20 +56,21 @@ TextInput::make('name'),
 ### Automatikusan alkalmazott beállítások
 
 - **TextInput** - Automatikusan translateLabel(), max 255 karakter
-- **Textarea** - Automatikusan translateLabel(), max 1000 karakter, 3 sor
-- **RichEditor** - Automatikusan translateLabel(), előre konfigurált toolbar
+- **Textarea** - Automatikusan translateLabel(), 3 sor, 50 oszlop
+- **RichEditor** - Automatikusan translateLabel()
 - **Select** - Automatikusan translateLabel(), searchable
-- **DatePicker** - Magyar dátum formátum (Y. m. d.)
-- **TimePicker** - 24 órás formátum (H:i)
-- **DateTimePicker** - Magyar dátum-idő formátum
-- **Toggle** - Zöld/szürke színek
+- **DatePicker** - Magyar dátum formátum (Y. m. d.), translateLabel()
+- **TimePicker** - 24 órás formátum (H:i), translateLabel()
+- **DateTimePicker** - Magyar dátum-idő formátum, translateLabel()
+- **Toggle** - Zöld/szürke színek, translateLabel()
+- **Checkbox** - translateLabel()
 - **CheckboxList** - Searchable, bulk toggleable, translateLabel()
 - **Radio** - translateLabel()
-- **FileUpload** - 2MB limit, PDF és képek, letölthető és előnézettel
+- **FileUpload** - 2MB limit, PDF és képek, letölthető és előnézettel, translateLabel()
 
 ### TranslateLabel funkció
 
-A `translateLabel()` alapértelmezésben **be van kapcsolva** és biztonságos. 
+A `translateLabel()` alapértelmezésben **ki van kapcsolva**, de biztonságos bekapcsolni. 
 Ez automatikusan lefordítja a mezők címkéit a Laravel lokalizációs fájlok alapján.
 
 ```php
@@ -82,11 +83,11 @@ Ez automatikusan lefordítja a mezők címkéit a Laravel lokalizációs fájlok
 // Akkor a TextInput::make('name') automatikusan "Név" címkét fog mutatni
 ```
 
-Ha nem szeretnéd ezt a funkciót:
+Ha szeretnéd ezt a funkciót:
 
 ```php
 // config/filament-essentials.php
-'default_translatable' => false,
+'default_translatable' => true,
 ```
 
 ### Facade használata
@@ -95,8 +96,7 @@ Ha nem szeretnéd ezt a funkciót:
 use SzaboZoltan\FilamentEssentials\Facades\FilamentEssentials;
 
 // Konfigurációs értékek lekérése
-$isTranslatable = FilamentEssentials::isTranslatableByDefault(); // true
-$isRequired = FilamentEssentials::isRequiredByDefault(); // false
+$isTranslatable = FilamentEssentials::isTranslatableByDefault(); // false
 $config = FilamentEssentials::getDefaultConfig(); // összes konfiguráció
 ```
 
@@ -107,7 +107,7 @@ Ha egy adott komponenshez más beállítást szeretnél, egyszerűen add hozzá:
 ```php
 TextInput::make('special_field')
     ->maxLength(500)  // Felülírja az alapértelmezett 255-öt
-    ->required(false), // Felülírja az alapértelmezett beállítást
+    ->required(),     // Hozzáadod a required()-et ha szükséges
 ```
 
 ## Konfiguráció
@@ -116,11 +116,10 @@ Az alapértelmezett beállításokat a `config/filament-essentials.php` fájlban
 
 ```php
 return [
-    'default_translatable' => true,        // Minden mező legyen translatable
-    'default_required' => false,           // Mezők ne legyenek kötelezőek alapból
-    'default_max_length' => 255,          // TextInput max hossz
-    'default_textarea_max_length' => 1000, // Textarea max hossz
-    'default_textarea_rows' => 3,          // Textarea sorok száma
+    'default_translatable' => false,       // Minden mező legyen translateLabel()
+    'default_text_maxlength' => 255,      // TextInput max hossz
+    'default_textarea_rows' => 3,         // Textarea sorok száma
+    'default_textarea_cols' => 50,        // Textarea oszlopok száma
     
     // Select beállítások
     'default_select_searchable' => true,
@@ -129,10 +128,18 @@ return [
     // Dátum formátumok
     'default_date_format' => 'Y-m-d',
     'default_date_display_format' => 'Y. m. d.',
+    'default_time_format' => 'H:i',
+    'default_time_display_format' => 'H:i',
+    'default_datetime_format' => 'Y-m-d H:i:s',
+    'default_datetime_display_format' => 'Y. m. d. H:i',
     
     // Toggle színek
     'default_toggle_on_color' => 'success',
     'default_toggle_off_color' => 'gray',
+    
+    // CheckboxList beállítások
+    'default_checkbox_list_searchable' => true,
+    'default_checkbox_list_bulk_toggleable' => true,
     
     // Fájl feltöltés
     'default_file_max_size' => 2048, // KB
@@ -161,27 +168,31 @@ class ProductResource extends Resource
             ->schema([
                 // Minden komponens automatikusan megkapja az alapértelmezett beállításokat!
                 Forms\Components\TextInput::make('name'),
-                // ↑ Automatikusan translatable, max 255 karakter
+                // ↑ Automatikusan max 255 karakter (opcionálisan translateLabel)
                 
                 Forms\Components\Textarea::make('description'),
-                // ↑ Automatikusan translatable, max 1000 karakter, 3 sor
+                // ↑ Automatikusan 3 sor, 50 oszlop (opcionálisan translateLabel)
                 
                 Forms\Components\RichEditor::make('content'),
-                // ↑ Automatikusan translatable, teljes toolbar
+                // ↑ Opcionálisan translateLabel
                 
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name'),
-                // ↑ Automatikusan translatable, searchable
+                // ↑ Automatikusan searchable (opcionálisan translateLabel)
                 
                 Forms\Components\DatePicker::make('published_at'),
-                // ↑ Automatikusan Y. m. d. formátum
+                // ↑ Automatikusan Y. m. d. formátum (opcionálisan translateLabel)
                 
                 Forms\Components\Toggle::make('is_active'),
-                // ↑ Automatikusan zöld/szürke színek
+                // ↑ Automatikusan zöld/szürke színek (opcionálisan translateLabel)
                 
                 Forms\Components\FileUpload::make('images')
                     ->multiple(),
-                // ↑ Automatikusan 2MB limit, képek, letölthető
+                // ↑ Automatikusan 2MB limit, képek, letölthető (opcionálisan translateLabel)
+                
+                // Ha szükséged van kötelező mezőre, egyszerűen add hozzá:
+                Forms\Components\TextInput::make('required_field')
+                    ->required(),
             ]);
     }
 }

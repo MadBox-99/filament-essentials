@@ -12,25 +12,26 @@ use Filament\Forms\Components\FileUpload;
 // KORÁBBAN: Sok boilerplate kód minden komponensnél
 $traditionalForm = [
     TextInput::make('name')
-        ->translatable()
+        ->translateLabel()
         ->required()
         ->maxLength(255),
     
     Textarea::make('description')
-        ->translatable()
+        ->translateLabel()
         ->required()
-        ->maxLength(1000)
-        ->rows(3),
+        ->rows(3)
+        ->cols(50),
     
     Select::make('category_id')
         ->relationship('category', 'name')
-        ->translatable()
+        ->translateLabel()
         ->searchable()
         ->required(),
     
     DatePicker::make('published_at')
         ->format('Y-m-d')
-        ->displayFormat('Y. m. d.'),
+        ->displayFormat('Y. m. d.')
+        ->required(),
     
     Toggle::make('is_active')
         ->onColor('success')
@@ -46,20 +47,20 @@ $traditionalForm = [
 // MOST: Filament Essentials automatikusan beállít mindent!
 $essentialsForm = [
     TextInput::make('name'),
-    // ↑ Automatikusan translateLabel(), max 255 karakter
+    // ↑ Automatikusan max 255 karakter (opcionálisan translateLabel)
     
     Textarea::make('description'),
-    // ↑ Automatikusan translateLabel(), max 1000 karakter, 3 sor
+    // ↑ Automatikusan 3 sor, 50 oszlop (opcionálisan translateLabel)
     
     Select::make('category_id')
         ->relationship('category', 'name'),
-    // ↑ Automatikusan translateLabel(), searchable
+    // ↑ Automatikusan searchable (opcionálisan translateLabel)
     
     DatePicker::make('published_at'),
-    // ↑ Automatikusan Y. m. d. formátum
+    // ↑ Automatikusan Y. m. d. formátum (opcionálisan translateLabel)
     
     Toggle::make('is_active'),
-    // ↑ Automatikusan zöld/szürke színek
+    // ↑ Automatikusan zöld/szürke színek (opcionálisan translateLabel)
     
     FileUpload::make('image'),
     // ↑ Automatikusan 2MB limit, képek, letölthető és előnézet
@@ -68,13 +69,16 @@ $essentialsForm = [
 // Ha specifikus beállítást szeretnél, egyszerűen felülírod:
 $customForm = [
     TextInput::make('special_name')
-        ->maxLength(500), // Felülírja az alapértelmezett 255-öt
+        ->maxLength(500)  // Felülírja az alapértelmezett 255-öt
+        ->required(),     // Hozzáadod ha szükséges
     
     Textarea::make('long_description')
-        ->maxLength(5000) // Felülírja az alapértelmezett 1000-et
-        ->rows(10),       // Felülírja az alapértelmezett 3-at
+        ->rows(10)        // Felülírja az alapértelmezett 3-at
+        ->cols(80)        // Felülírja az alapértelmezett 50-et
+        ->required(),     // Hozzáadod ha szükséges
 ];
 
-// A translateLabel() automatikusan be van kapcsolva és biztonságos!
-// Ez lefordítja a mezők címkéit a Laravel lang fájlok alapján.
+// Ha bekapcsolod a translateLabel() funkciót a konfigban:
+// config/filament-essentials.php: 'default_translatable' => true
+// Akkor automatikusan lefordítja a mezők címkéit a Laravel lang fájlok alapján.
 // Például: TextInput::make('name') → automatikusan "Név" címke

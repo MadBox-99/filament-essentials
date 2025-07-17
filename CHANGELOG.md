@@ -7,9 +7,22 @@ Az formátum a [Keep a Changelog](https://keepachangelog.com/hu/1.0.0/) alapján
 
 ## [Unreleased]
 
-### Changed
+### Eltávolítva
+- **BREAKING CHANGE**: Eltávolítva a `default_required` konfiguráció és az automatikus `required()` alkalmazása
+- Eltávolítva a `isRequiredByDefault()` metódus a Facade-ból
+
+### Változott
+- A mezők már nem lesznek automatikusan kötelezőek (`required()`)
+- A fejlesztőknek manuálisan kell hozzáadniuk a `required()` metódust ahol szükséges
+- Ez rugalmasabbá teszi a csomagot admin és frontend használathoz
+- `default_translatable` alapértelmezett értéke `false` lett a biztonság érdekében
+
+### Javítva
+- Nagyobb rugalmasság a form validációban
+- Nincs konfliktus az admin és frontend mezők között
+
+### Korábbi változások
 - **Breaking change**: `translatable()` helyett `translateLabel()` használata
-- `default_translatable` alapértelmezett értéke vissza `true`-ra - most már biztonságos!
 - `translateLabel()` automatikusan lefordítja a mezők címkéit Laravel lang fájlok alapján
 - Nincs szükség külső translation csomagokra
 - Frissített dokumentáció a `translateLabel()` funkcióról
@@ -25,14 +38,14 @@ Az formátum a [Keep a Changelog](https://keepachangelog.com/hu/1.0.0/) alapján
 - Részletes dokumentáció magyar nyelven
 - Intelligens `translatable()` támogatás (csak akkor alkalmazza, ha elérhető)
 - Automatikus komponens-specifikus alapértelmezett beállítások:
-  - TextInput: maxLength, translatable
-  - Textarea: maxLength, rows, translatable
-  - RichEditor: toolbar buttons, translatable
-  - Select: searchable, preload, translatable
-  - DatePicker/TimePicker/DateTimePicker: magyar formátumok
-  - Toggle: színek (zöld/szürke)
-  - FileUpload: fájl méretek, típusok, letöltés és előnézet
-  - Checkbox, CheckboxList, Radio alapértelmezett beállítások
+  - TextInput: maxLength, opcionális translateLabel
+  - Textarea: rows, cols, opcionális translateLabel
+  - RichEditor: opcionális translateLabel
+  - Select: searchable, preload, opcionális translateLabel
+  - DatePicker/TimePicker/DateTimePicker: magyar formátumok, opcionális translateLabel
+  - Toggle: színek (zöld/szürke), opcionális translateLabel
+  - FileUpload: fájl méretek, típusok, letöltés és előnézet, opcionális translateLabel
+  - Checkbox, CheckboxList, Radio: opcionális translateLabel
 - **Nincs szükség manuális makró hívásokra** - minden automatikusan működik!
 
 ### Technikai részletek

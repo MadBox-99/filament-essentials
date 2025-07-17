@@ -49,10 +49,6 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 $component->translateLabel();
             }
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
-            }
-
             return $component;
         });
 
@@ -64,10 +60,6 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
 
             if (config('filament-essentials.default_translatable', false)) {
                 $component->translateLabel();
-            }
-
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
             }
 
             return $component;
@@ -96,10 +88,6 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 $component->translateLabel();
             }
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
-            }
-
             return $component;
         });
 
@@ -113,10 +101,6 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 $component->translateLabel();
             }
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
-            }
-
             return $component;
         });
 
@@ -126,8 +110,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 ->format(config('filament-essentials.default_date_format', 'Y-m-d'))
                 ->displayFormat(config('filament-essentials.default_date_display_format', 'Y. m. d.'));
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
+            if (config('filament-essentials.default_translatable', false)) {
+                $component->translateLabel();
             }
 
             return $component;
@@ -139,8 +123,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 ->format(config('filament-essentials.default_time_format', 'H:i'))
                 ->displayFormat(config('filament-essentials.default_time_display_format', 'H:i'));
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
+            if (config('filament-essentials.default_translatable', false)) {
+                $component->translateLabel();
             }
 
             return $component;
@@ -152,8 +136,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 ->format(config('filament-essentials.default_datetime_format', 'Y-m-d H:i:s'))
                 ->displayFormat(config('filament-essentials.default_datetime_display_format', 'Y. m. d. H:i'));
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
+            if (config('filament-essentials.default_translatable', false)) {
+                $component->translateLabel();
             }
 
             return $component;
@@ -165,8 +149,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 ->onColor(config('filament-essentials.default_toggle_on_color', 'success'))
                 ->offColor(config('filament-essentials.default_toggle_off_color', 'gray'));
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
+            if (config('filament-essentials.default_translatable', false)) {
+                $component->translateLabel();
             }
 
             return $component;
@@ -174,8 +158,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
 
         // Checkbox automatikus konfigurálása
         Checkbox::configureUsing(function (Checkbox $component) {
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
+            if (config('filament-essentials.default_translatable', false)) {
+                $component->translateLabel();
             }
 
             return $component;
@@ -191,10 +175,6 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 $component->translateLabel();
             }
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
-            }
-
             return $component;
         });
 
@@ -202,10 +182,6 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
         Radio::configureUsing(function (Radio $component) {
             if (config('filament-essentials.default_translatable', false)) {
                 $component->translateLabel();
-            }
-
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
             }
 
             return $component;
@@ -219,8 +195,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 ->downloadable(config('filament-essentials.default_file_downloadable', true))
                 ->previewable(config('filament-essentials.default_file_previewable', true));
 
-            if (config('filament-essentials.default_required', false)) {
-                $component->required();
+            if (config('filament-essentials.default_translatable', false)) {
+                $component->translateLabel();
             }
 
             return $component;
