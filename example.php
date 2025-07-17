@@ -46,14 +46,14 @@ $traditionalForm = [
 // MOST: Filament Essentials automatikusan beállít mindent!
 $essentialsForm = [
     TextInput::make('name'),
-    // ↑ Automatikusan translatable, max 255 karakter
+    // ↑ Automatikusan max 255 karakter
     
     Textarea::make('description'),
-    // ↑ Automatikusan translatable, max 1000 karakter, 3 sor
+    // ↑ Automatikusan max 1000 karakter, 3 sor
     
     Select::make('category_id')
         ->relationship('category', 'name'),
-    // ↑ Automatikusan translatable, searchable
+    // ↑ Automatikusan searchable
     
     DatePicker::make('published_at'),
     // ↑ Automatikusan Y. m. d. formátum
@@ -75,4 +75,6 @@ $customForm = [
         ->rows(10),       // Felülírja az alapértelmezett 3-at
 ];
 
-// A translatable automatikusan alkalmazódik, ha telepítve van!
+// A translatable funkció alapértelmezésként ki van kapcsolva
+// a biztonság érdekében. Ha szeretnéd használni:
+// config/filament-essentials.php: 'default_translatable' => true

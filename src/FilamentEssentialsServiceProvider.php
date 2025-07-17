@@ -44,9 +44,9 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
         TextInput::configureUsing(function (TextInput $component) {
             $component->maxLength(config('filament-essentials.default_max_length', 255));
 
-            // Csak akkor alkalmazzuk a translatable-t, ha a metódus létezik
-            if (method_exists($component, 'translatable')) {
-                $component->translatable(config('filament-essentials.default_translatable', true));
+            // Csak akkor alkalmazzuk a translatable-t, ha engedélyezve van ÉS a metódus létezik
+            if (config('filament-essentials.default_translatable', false) && method_exists($component, 'translatable')) {
+                $component->translatable();
             }
 
             if (config('filament-essentials.default_required', false)) {
@@ -62,8 +62,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 ->maxLength(config('filament-essentials.default_textarea_max_length', 1000))
                 ->rows(config('filament-essentials.default_textarea_rows', 3));
 
-            if (method_exists($component, 'translatable')) {
-                $component->translatable(config('filament-essentials.default_translatable', true));
+            if (config('filament-essentials.default_translatable', false) && method_exists($component, 'translatable')) {
+                $component->translatable();
             }
 
             if (config('filament-essentials.default_required', false)) {
@@ -92,8 +92,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 'undo',
             ]));
 
-            if (method_exists($component, 'translatable')) {
-                $component->translatable(config('filament-essentials.default_translatable', true));
+            if (config('filament-essentials.default_translatable', false) && method_exists($component, 'translatable')) {
+                $component->translatable();
             }
 
             if (config('filament-essentials.default_required', false)) {
@@ -109,8 +109,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 ->searchable(config('filament-essentials.default_select_searchable', true))
                 ->preload(config('filament-essentials.default_select_preload', false));
 
-            if (method_exists($component, 'translatable')) {
-                $component->translatable(config('filament-essentials.default_translatable', true));
+            if (config('filament-essentials.default_translatable', false) && method_exists($component, 'translatable')) {
+                $component->translatable();
             }
 
             if (config('filament-essentials.default_required', false)) {
@@ -187,8 +187,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
                 ->searchable(config('filament-essentials.default_checkbox_list_searchable', true))
                 ->bulkToggleable(config('filament-essentials.default_checkbox_list_bulk_toggleable', true));
 
-            if (method_exists($component, 'translatable')) {
-                $component->translatable(config('filament-essentials.default_translatable', true));
+            if (config('filament-essentials.default_translatable', false) && method_exists($component, 'translatable')) {
+                $component->translatable();
             }
 
             if (config('filament-essentials.default_required', false)) {
@@ -200,8 +200,8 @@ class FilamentEssentialsServiceProvider extends PackageServiceProvider
 
         // Radio automatikus konfigurálása
         Radio::configureUsing(function (Radio $component) {
-            if (method_exists($component, 'translatable')) {
-                $component->translatable(config('filament-essentials.default_translatable', true));
+            if (config('filament-essentials.default_translatable', false) && method_exists($component, 'translatable')) {
+                $component->translatable();
             }
 
             if (config('filament-essentials.default_required', false)) {

@@ -7,6 +7,11 @@ Az formátum a [Keep a Changelog](https://keepachangelog.com/hu/1.0.0/) alapján
 
 ## [Unreleased]
 
+### Changed
+- **Breaking change**: `default_translatable` alapértelmezett értéke `false`-ra változott a biztonság érdekében
+- Intelligensebb translatable kezelés: csak akkor alkalmazza, ha explicit engedélyezve van ÉS elérhető a metódus
+- Frissített dokumentáció a biztonságos translatable használatról
+
 ## [1.0.0] - 2025-07-17
 
 ### Hozzáadva

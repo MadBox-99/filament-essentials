@@ -48,22 +48,36 @@ TextInput::make('name')
 
 // Most egyszerűen csak így:
 TextInput::make('name'),
-// ↑ Automatikusan translatable és 255 karakter limit!
+// ↑ Automatikusan 255 karakter limit!
+
+// Ha szeretnéd a translatable funkciót, állítsd be a konfigurációban:
+// 'default_translatable' => true
 ```
 
 ### Automatikusan alkalmazott beállítások
 
-- **TextInput** - Automatikusan translatable, max 255 karakter
-- **Textarea** - Automatikusan translatable, max 1000 karakter, 3 sor
-- **RichEditor** - Automatikusan translatable, előre konfigurált toolbar
-- **Select** - Automatikusan translatable, searchable
+- **TextInput** - Automatikusan max 255 karakter
+- **Textarea** - Automatikusan max 1000 karakter, 3 sor
+- **RichEditor** - Automatikusan előre konfigurált toolbar
+- **Select** - Automatikusan searchable
 - **DatePicker** - Magyar dátum formátum (Y. m. d.)
 - **TimePicker** - 24 órás formátum (H:i)
 - **DateTimePicker** - Magyar dátum-idő formátum
 - **Toggle** - Zöld/szürke színek
-- **CheckboxList** - Searchable, bulk toggleable, translatable
-- **Radio** - Translatable
+- **CheckboxList** - Searchable, bulk toggleable
 - **FileUpload** - 2MB limit, PDF és képek, letölthető és előnézettel
+
+### Translatable támogatás
+
+A `translatable()` funkció alapértelmezésként **ki van kapcsolva** a biztonság érdekében. 
+Ha szeretnéd használni, állítsd be a konfigurációban:
+
+```php
+// config/filament-essentials.php
+'default_translatable' => true,
+```
+
+**Figyelem:** Csak akkor kapcsold be, ha telepítve van egy translation csomag (pl. `spatie/laravel-translatable`)!
 
 ### Facade használata
 

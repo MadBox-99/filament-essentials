@@ -7,11 +7,13 @@ return [
     |--------------------------------------------------------------------------
     |
     | This value determines whether form components should be translatable
-    | by default when using the essentials() macro.
-    | Note: Requires a package like spatie/laravel-translatable to work.
+    | by default. Set to true only if you have a translation package installed
+    | (like spatie/laravel-translatable) and want translatable fields by default.
+    | 
+    | WARNING: Setting this to true without proper translation setup may cause errors!
     |
     */
-    'default_translatable' => true,
+    'default_translatable' => false,
 
     /*
     |--------------------------------------------------------------------------
