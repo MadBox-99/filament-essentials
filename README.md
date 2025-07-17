@@ -210,7 +210,15 @@ composer test
 
 # Vagy direkt módon
 ./vendor/bin/pest
+
+# Code coverage (Xdebug vagy PCOV szükséges)
+composer test-coverage
+
+# HTML coverage report generálása
+composer test-coverage-html
 ```
+
+**Megjegyzés:** A code coverage-hez szükséged van Xdebug vagy PCOV PHP extension-re.
 
 ## Követelmények
 
