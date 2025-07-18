@@ -16,6 +16,15 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Columns\ColorColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextInputColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Columns\ViewColumn;
 
 class FilamentEssentialsServiceProvider extends ServiceProvider
 {
@@ -198,7 +207,9 @@ class FilamentEssentialsServiceProvider extends ServiceProvider
         });
 
         Repeater::configureUsing(function (Repeater $component): void {
-            $component->translateLabel();
+            if (config('filament-essentials.default_translatable', false)) {
+                $component->translateLabel();
+            }
         });
 
         // Step komponens konfiguráció - kompatibilis Filament v3 és v4 verziókkal
@@ -216,5 +227,54 @@ class FilamentEssentialsServiceProvider extends ServiceProvider
                 $component->translateLabel();
             });
         }
+
+        TextColumn::configureUsing(function (TextColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
+
+        IconColumn::configureUsing(function (IconColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
+
+        ImageColumn::configureUsing(function (ImageColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
+
+        ColorColumn::configureUsing(function (ColorColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
+        SelectColumn::configureUsing(function (SelectColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
+        ToggleColumn::configureUsing(function (ToggleColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
+        TextInputColumn::configureUsing(function (TextInputColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
+        CheckboxColumn::configureUsing(function (CheckboxColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
+        ViewColumn::configureUsing(function (ViewColumn $column) {
+            if (config('filament-essentials.default_translatable', false)) {
+                $column->translateLabel();
+            }
+        });
     }
 }
