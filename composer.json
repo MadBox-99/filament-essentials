@@ -53,7 +53,6 @@
         "test-coverage": "pest --coverage --min=80"
     },
     "minimum-stability": "beta",
-    "prefer-stable": true,
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
