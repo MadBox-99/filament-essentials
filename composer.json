@@ -18,7 +18,8 @@
     "require-dev": {
         "phpunit/phpunit": "^10.0",
         "orchestra/testbench": "^8.0|^9.0",
-        "pestphp/pest": "^2.36"
+        "pestphp/pest": "^2.36",
+        "laravel/pint": "^1.24"
     },
     "license": "MIT",
     "authors": [

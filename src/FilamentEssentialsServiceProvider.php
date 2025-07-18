@@ -2,19 +2,21 @@
 
 namespace FilamentEssentials;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
 use Illuminate\Support\ServiceProvider;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\DateTimePicker;
 
 class FilamentEssentialsServiceProvider extends ServiceProvider
 {
@@ -28,7 +30,7 @@ class FilamentEssentialsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/../config/filament-essentials.php' => config_path('filament-essentials.php'),
+            __DIR__ . '/../config/filament-essentials.php' => config_path('filament-essentials.php'),
         ], 'filament-essentials-config');
 
         $this->configureFilamentComponents();
@@ -36,7 +38,7 @@ class FilamentEssentialsServiceProvider extends ServiceProvider
 
     protected function configureFilamentComponents(): void
     {
-        // TextInput automatikus konfigurálása
+
         TextInput::configureUsing(function (TextInput $component) {
             $component->maxLength(config('filament-essentials.default_max_length', 255));
 
@@ -48,7 +50,6 @@ class FilamentEssentialsServiceProvider extends ServiceProvider
             return $component;
         });
 
-        // Textarea automatikus konfigurálása
         Textarea::configureUsing(function (Textarea $component) {
             $component
                 ->maxLength(config('filament-essentials.default_textarea_max_length', 1000))
@@ -61,7 +62,6 @@ class FilamentEssentialsServiceProvider extends ServiceProvider
             return $component;
         });
 
-        // RichEditor automatikus konfigurálása
         RichEditor::configureUsing(function (RichEditor $component) {
             $component->toolbarButtons(config('filament-essentials.rich_editor_toolbar', [
                 'attachFiles',
@@ -196,6 +196,14 @@ class FilamentEssentialsServiceProvider extends ServiceProvider
             }
 
             return $component;
+        });
+
+        Repeater::configureUsing(function (Repeater $component): void {
+            $component->translateLabel();
+        });
+
+        Step::configureUsing(function (Step $component): void {
+            $component->translateLabel();
         });
     }
 }
