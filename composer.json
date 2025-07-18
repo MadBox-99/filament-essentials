@@ -52,7 +52,7 @@
         "test": "pest",
         "test-coverage": "pest --coverage --min=80"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "beta",
     "prefer-stable": true,
     "config": {
         "allow-plugins": {
