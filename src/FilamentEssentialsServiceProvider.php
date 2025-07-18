@@ -14,7 +14,6 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
 
@@ -202,8 +201,20 @@ class FilamentEssentialsServiceProvider extends ServiceProvider
             $component->translateLabel();
         });
 
-        Step::configureUsing(function (Step $component): void {
-            $component->translateLabel();
-        });
+        // Step komponens konfiguráció - kompatibilis Filament v3 és v4 verziókkal
+        $v3StepClass = 'Filament\Forms\Components\Wizard\Step';
+        $v4StepClass = 'Filament\Schemas\Components\Wizard\Step';
+
+        if (class_exists($v3StepClass)) {
+            // Filament v3 kompatibilitás
+            $v3StepClass::configureUsing(function ($component): void {
+                $component->translateLabel();
+            });
+        } elseif (class_exists($v4StepClass)) {
+            // Filament v4 kompatibilitás
+            $v4StepClass::configureUsing(function ($component): void {
+                $component->translateLabel();
+            });
+        }
     }
 }
