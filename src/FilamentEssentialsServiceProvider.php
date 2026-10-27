@@ -1,279 +1,112 @@
 <?php
 
-namespace FilamentEssentials;
+declare(strict_types=1);
 
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Textarea;
-use Illuminate\Support\ServiceProvider;
-use Filament\Forms\Components\TextInput;
+namespace MadBox99\FilamentEssentials;
+
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Tables\Columns\CheckboxColumn;
-use Filament\Tables\Columns\ColorColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\TextInputColumn;
-use Filament\Tables\Columns\ToggleColumn;
-use Filament\Tables\Columns\ViewColumn;
+use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\Entry;
+use Filament\Schemas\Components\Wizard\Step;
+use Filament\Tables\Columns\Column;
+use Illuminate\Support\ServiceProvider;
 
 class FilamentEssentialsServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(FilamentEssentials::class, function () {
-            return new FilamentEssentials();
-        });
+        $this->mergeConfigFrom(__DIR__.'/../config/filament-essentials.php', 'filament-essentials');
     }
 
     public function boot(): void
     {
-        $this->publishes([
-            __DIR__ . '/../config/filament-essentials.php' => config_path('filament-essentials.php'),
-        ], 'filament-essentials-config');
-
-        $this->configureFilamentComponents();
-    }
-
-    protected function configureFilamentComponents(): void
-    {
-
-        TextInput::configureUsing(function (TextInput $component) {
-            $component->maxLength(config('filament-essentials.default_max_length', 255));
-
-            // Csak akkor alkalmazzuk a translateLabel-t, ha engedélyezve van
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        Textarea::configureUsing(function (Textarea $component) {
-            $component
-                ->maxLength(config('filament-essentials.default_textarea_max_length', 1000))
-                ->rows(config('filament-essentials.default_textarea_rows', 3));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        RichEditor::configureUsing(function (RichEditor $component) {
-            $component->toolbarButtons(config('filament-essentials.rich_editor_toolbar', [
-                'attachFiles',
-                'blockquote',
-                'bold',
-                'bulletList',
-                'codeBlock',
-                'h2',
-                'h3',
-                'italic',
-                'link',
-                'orderedList',
-                'redo',
-                'strike',
-                'underline',
-                'undo',
-            ]));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // Select automatikus konfigurálása
-        Select::configureUsing(function (Select $component) {
-            $component
-                ->searchable(config('filament-essentials.default_select_searchable', true))
-                ->preload(config('filament-essentials.default_select_preload', false));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // DatePicker automatikus konfigurálása
-        DatePicker::configureUsing(function (DatePicker $component) {
-            $component
-                ->format(config('filament-essentials.default_date_format', 'Y-m-d'))
-                ->displayFormat(config('filament-essentials.default_date_display_format', 'Y. m. d.'));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // TimePicker automatikus konfigurálása
-        TimePicker::configureUsing(function (TimePicker $component) {
-            $component
-                ->format(config('filament-essentials.default_time_format', 'H:i'))
-                ->displayFormat(config('filament-essentials.default_time_display_format', 'H:i'));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // DateTimePicker automatikus konfigurálása
-        DateTimePicker::configureUsing(function (DateTimePicker $component) {
-            $component
-                ->format(config('filament-essentials.default_datetime_format', 'Y-m-d H:i:s'))
-                ->displayFormat(config('filament-essentials.default_datetime_display_format', 'Y. m. d. H:i'));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // Toggle automatikus konfigurálása
-        Toggle::configureUsing(function (Toggle $component) {
-            $component
-                ->onColor(config('filament-essentials.default_toggle_on_color', 'success'))
-                ->offColor(config('filament-essentials.default_toggle_off_color', 'gray'));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // Checkbox automatikus konfigurálása
-        Checkbox::configureUsing(function (Checkbox $component) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // CheckboxList automatikus konfigurálása
-        CheckboxList::configureUsing(function (CheckboxList $component) {
-            $component
-                ->searchable(config('filament-essentials.default_checkbox_list_searchable', true))
-                ->bulkToggleable(config('filament-essentials.default_checkbox_list_bulk_toggleable', true));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // Radio automatikus konfigurálása
-        Radio::configureUsing(function (Radio $component) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        // FileUpload automatikus konfigurálása
-        FileUpload::configureUsing(function (FileUpload $component) {
-            $component
-                ->maxSize(config('filament-essentials.default_file_max_size', 2048))
-                ->acceptedFileTypes(config('filament-essentials.default_file_types', ['application/pdf', 'image/*']))
-                ->downloadable(config('filament-essentials.default_file_downloadable', true))
-                ->previewable(config('filament-essentials.default_file_previewable', true));
-
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-
-            return $component;
-        });
-
-        Repeater::configureUsing(function (Repeater $component): void {
-            if (config('filament-essentials.default_translatable', false)) {
-                $component->translateLabel();
-            }
-        });
-
-        // Step komponens konfiguráció - kompatibilis Filament v3 és v4 verziókkal
-        $v3StepClass = 'Filament\Forms\Components\Wizard\Step';
-        $v4StepClass = 'Filament\Schemas\Components\Wizard\Step';
-
-        if (class_exists($v3StepClass)) {
-            // Filament v3 kompatibilitás
-            $v3StepClass::configureUsing(function ($component): void {
-                $component->translateLabel();
-            });
-        } elseif (class_exists($v4StepClass)) {
-            // Filament v4 kompatibilitás
-            $v4StepClass::configureUsing(function ($component): void {
-                $component->translateLabel();
-            });
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/filament-essentials.php' => config_path('filament-essentials.php'),
+            ], 'filament-essentials-config');
         }
 
-        TextColumn::configureUsing(function (TextColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
-            }
-        });
+        $this->configureLabelTranslation();
+        $this->configureComponentDefaults();
+    }
 
-        IconColumn::configureUsing(function (IconColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
-            }
-        });
+    /**
+     * Configuring the base classes cascades to every subclass, so this covers
+     * all built-in and custom fields, entries and columns. The config is read
+     * when each component is created, so it can be toggled at runtime.
+     */
+    protected function configureLabelTranslation(): void
+    {
+        foreach ([Field::class, Entry::class, Column::class, Step::class] as $component) {
+            $component::configureUsing(function (Field|Entry|Column|Step $component): void {
+                if (config('filament-essentials.translate_labels')) {
+                    $component->translateLabel();
+                }
+            });
+        }
+    }
 
-        ImageColumn::configureUsing(function (ImageColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
-            }
-        });
+    protected function configureComponentDefaults(): void
+    {
+        $this->whenEnabled(TextInput::class, fn (TextInput $component): TextInput => $component
+            ->maxLength(config('filament-essentials.text_input_max_length')));
 
-        ColorColumn::configureUsing(function (ColorColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
-            }
-        });
-        SelectColumn::configureUsing(function (SelectColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
-            }
-        });
-        ToggleColumn::configureUsing(function (ToggleColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
-            }
-        });
-        TextInputColumn::configureUsing(function (TextInputColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
-            }
-        });
-        CheckboxColumn::configureUsing(function (CheckboxColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
-            }
-        });
-        ViewColumn::configureUsing(function (ViewColumn $column) {
-            if (config('filament-essentials.default_translatable', false)) {
-                $column->translateLabel();
+        $this->whenEnabled(Textarea::class, fn (Textarea $component): Textarea => $component
+            ->maxLength(config('filament-essentials.textarea_max_length'))
+            ->rows(config('filament-essentials.textarea_rows')));
+
+        $this->whenEnabled(RichEditor::class, fn (RichEditor $component): RichEditor => $component
+            ->toolbarButtons(config('filament-essentials.rich_editor_toolbar')));
+
+        $this->whenEnabled(Select::class, fn (Select $component): Select => $component
+            ->searchable(config('filament-essentials.select_searchable'))
+            ->preload(config('filament-essentials.select_preload')));
+
+        $this->whenEnabled(DatePicker::class, fn (DatePicker $component): DatePicker => $component
+            ->format(config('filament-essentials.date_format'))
+            ->displayFormat(config('filament-essentials.date_display_format')));
+
+        $this->whenEnabled(TimePicker::class, fn (TimePicker $component): TimePicker => $component
+            ->format(config('filament-essentials.time_format'))
+            ->displayFormat(config('filament-essentials.time_display_format')));
+
+        $this->whenEnabled(DateTimePicker::class, fn (DateTimePicker $component): DateTimePicker => $component
+            ->format(config('filament-essentials.datetime_format'))
+            ->displayFormat(config('filament-essentials.datetime_display_format')));
+
+        $this->whenEnabled(Toggle::class, fn (Toggle $component): Toggle => $component
+            ->onColor(config('filament-essentials.toggle_on_color'))
+            ->offColor(config('filament-essentials.toggle_off_color')));
+
+        $this->whenEnabled(CheckboxList::class, fn (CheckboxList $component): CheckboxList => $component
+            ->searchable(config('filament-essentials.checkbox_list_searchable'))
+            ->bulkToggleable(config('filament-essentials.checkbox_list_bulk_toggleable')));
+
+        $this->whenEnabled(FileUpload::class, fn (FileUpload $component): FileUpload => $component
+            ->maxSize(config('filament-essentials.file_max_size'))
+            ->acceptedFileTypes(config('filament-essentials.file_types'))
+            ->downloadable(config('filament-essentials.file_downloadable'))
+            ->previewable(config('filament-essentials.file_previewable')));
+    }
+
+    /**
+     * @param  class-string<Field>  $component
+     * @param  callable(Field): Field  $configure
+     */
+    protected function whenEnabled(string $component, callable $configure): void
+    {
+        $component::configureUsing(function (Field $field) use ($configure): void {
+            if (config('filament-essentials.component_defaults')) {
+                $configure($field);
             }
         });
     }

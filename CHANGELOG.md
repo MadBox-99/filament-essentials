@@ -5,27 +5,17 @@ Minden jelentős változás ebben a projektben dokumentálva lesz ebben a fájlb
 Az formátum a [Keep a Changelog](https://keepachangelog.com/hu/1.0.0/) alapján készült,
 és ez a projekt a [Semantic Versioning](https://semver.org/spec/v2.0.0.html) elveket követi.
 
-## [Unreleased]
-
-### Eltávolítva
-- **BREAKING CHANGE**: Eltávolítva a `default_required` konfiguráció és az automatikus `required()` alkalmazása
-- Eltávolítva a `isRequiredByDefault()` metódus a Facade-ból
+## [2.0.0] - 2026-10-27
 
 ### Változott
-- A mezők már nem lesznek automatikusan kötelezőek (`required()`)
-- A fejlesztőknek manuálisan kell hozzáadniuk a `required()` metódust ahol szükséges
-- Ez rugalmasabbá teszi a csomagot admin és frontend használathoz
-- `default_translatable` alapértelmezett értéke `false` lett a biztonság érdekében
+- **BREAKING**: Filament 5, PHP 8.3+; a namespace `MadBox99\FilamentEssentials` lett
+- **BREAKING**: `default_translatable` helyett `translate_labels`, alapból bekapcsolva
+- A címkefordítás a Filament alaposztályain (`Field`, `Entry`, `Column`, `Step`) van beállítva, így minden mezőre, infolist-elemre és táblaoszlopra érvényes
+- **BREAKING**: a komponens-alapértékek (maxLength, kereshető Select, dátumformátumok, feltöltési limit stb.) csak `component_defaults => true` mellett lépnek életbe; a kulcsokból kikerült a `default_` előtag
 
-### Javítva
-- Nagyobb rugalmasság a form validációban
-- Nincs konfliktus az admin és frontend mezők között
-
-### Korábbi változások
-- **Breaking change**: `translatable()` helyett `translateLabel()` használata
-- `translateLabel()` automatikusan lefordítja a mezők címkéit Laravel lang fájlok alapján
-- Nincs szükség külső translation csomagokra
-- Frissített dokumentáció a `translateLabel()` funkcióról
+### Eltávolítva
+- `FilamentEssentials` facade és osztály
+- `default_required` konfiguráció
 
 ## [1.0.0] - 2025-07-17
 
